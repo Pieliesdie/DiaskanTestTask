@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Tasks.Models;
 
 namespace TaskManager.Tasks.Endpoints;
 
@@ -18,16 +19,25 @@ public class TasksController : ControllerBase
         var tasks = await allTasksQuery.GetAllTasks(ct);
         return Ok(tasks);
     }
-    
     [HttpGet("[action]")]
     public async Task<IActionResult> Get()
     {
         return Ok();
     }
     [HttpPut("[action]")]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(
+        [FromServices] CreateTaskCommand createTaskCommand,
+        [FromBody] TaskClientDto taskClientDto,
+        CancellationToken ct
+    )
     {
-        return Ok();
+        var isCreated = await createTaskCommand.Execute(taskClientDto, ct);
+        if (isCreated)
+        {
+            return Ok();
+        }
+
+        return BadRequest();
     }
     [HttpPatch("[action]")]
     public async Task<IActionResult> Update()

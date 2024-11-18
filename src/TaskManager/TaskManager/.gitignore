@@ -35,6 +35,6 @@ _ReSharper*/
 packages/
 *.dll
 */obj/*
-/.idea
+.idea
 bin
 obj
