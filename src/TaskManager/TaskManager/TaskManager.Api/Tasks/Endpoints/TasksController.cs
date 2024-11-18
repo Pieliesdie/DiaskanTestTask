@@ -10,9 +10,13 @@ namespace TaskManager.Tasks.Endpoints;
 public class TasksController : ControllerBase
 {
     [HttpGet("[action]")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(
+        [FromServices] GetAllTasksQuery allTasksQuery,
+        CancellationToken ct
+    )
     {
-        return Ok();
+        var tasks = await allTasksQuery.GetAllTasks(ct);
+        return Ok(tasks);
     }
     
     [HttpGet("[action]")]
@@ -20,19 +24,16 @@ public class TasksController : ControllerBase
     {
         return Ok();
     }
-    
     [HttpPut("[action]")]
     public async Task<IActionResult> Create()
     {
         return Ok();
     }
-    
     [HttpPatch("[action]")]
     public async Task<IActionResult> Update()
     {
         return Ok();
     }
-    
     [HttpDelete("[action]")]
     public async Task<IActionResult> Remove()
     {

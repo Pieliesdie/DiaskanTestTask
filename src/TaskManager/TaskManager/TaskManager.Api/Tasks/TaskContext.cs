@@ -4,19 +4,17 @@ using TaskManager.Tasks.Models;
 
 namespace TaskManager.Tasks;
 
-public class TaskContext : DbContext
+[RegisterScoped]
+public class TaskContext(IConfiguration configuration) : DbContext
 {
+    private string? mongoConnectionString;
     public DbSet<TaskDbDto> Tasks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var mongoConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__MongoDb");
-        if (string.IsNullOrWhiteSpace(mongoConnectionString))
-        {
-            throw new InvalidOperationException("MongoDB connection string not configured.");
-        }
-
-        optionsBuilder.UseMongoDB(mongoConnectionString, "TaskManager.Api");
+        mongoConnectionString ??= configuration.GetConnectionString("MongoDb") 
+                                ?? throw new InvalidOperationException("MongoDB connection string not configured.");
+        optionsBuilder.UseMongoDB(mongoConnectionString, "TaskManagementDb");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
