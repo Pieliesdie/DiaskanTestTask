@@ -1,0 +1,27 @@
+﻿name: "TaskManager"
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+
+  taskmanager:
+    image: taskmanager
+    build:
+      context: .
+      dockerfile: TaskManager/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      ConnectionStrings__MongoDb: "mongodb://admin:password@mongodb:27017/TaskManagementDb"
+
+volumes:
+  mongodb_data:
