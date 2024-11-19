@@ -1,11 +1,33 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using TaskManager.Frontend;
+using MudBlazor.Services;
+using Refit;
+using TaskManager.Frontend.Components;
+using TaskManager.Frontend.Services;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddMudServices();
 
-await builder.Build().RunAsync();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+var backendConnectionString = builder.Configuration.GetConnectionString("Backend")
+    ?? throw new InvalidOperationException("Backend connection string not configured.");
+builder.Services
+    .AddRefitClient<ITasksApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(backendConnectionString));
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
+app.UseStaticFiles();
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run();

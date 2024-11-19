@@ -1,4 +1,5 @@
-﻿using TaskManager.Tasks.Errors;
+﻿using TaskManager.Common.Models.Tasks;
+using TaskManager.Tasks.Errors;
 using TaskManager.Tasks.Mappers;
 
 namespace TaskManager.Tasks.Queries;

@@ -1,4 +1,5 @@
-﻿using TaskManager.Tasks.Errors;
+﻿using TaskManager.Common.Models.Tasks;
+using TaskManager.Tasks.Errors;
 using TaskManager.Tasks.Mappers;
 
 namespace TaskManager.Tasks.Commands;
@@ -18,6 +19,7 @@ public class CreateTaskCommand(
             return TaskError.Conflict(taskClientDto.Id);
         }
         var dbTask = taskMapper.MapToDbDto(taskClientDto);
+        dbTask.CreationDate = DateTime.UtcNow;
         try
         {
             await TaskContext.Tasks.AddAsync(dbTask, ct);

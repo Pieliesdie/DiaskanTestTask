@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Common.Models.Tasks;
 using TaskManager.Tasks.Commands;
 using TaskManager.Tasks.Queries;
 
@@ -7,7 +8,7 @@ namespace TaskManager.Tasks.Endpoints;
 /// <summary>
 ///     Controller for handling tasks-related operations.
 /// </summary>
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TasksController : BaseController
 {
     [HttpGet("[action]")]

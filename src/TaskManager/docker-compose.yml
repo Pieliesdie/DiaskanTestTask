@@ -3,26 +3,35 @@ services:
   mongodb:
     image: mongo:6.0
     container_name: mongodb
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodb_data:/data/db
 
-  taskmanager:
-    image: taskmanager
+  taskmanager.backend:
+    image: taskmanager.api
     container_name: taskmanager.api
     build:
       context: .
       dockerfile: TaskManager.Api/Dockerfile
-    ports:
-      - "5000:8080"
     depends_on:
       - mongodb
     environment:
       ConnectionStrings__MongoDb: "mongodb://admin:password@mongodb:27017"
-
+      
+  taskmanager.frontend:
+    image: taskmanager.frontend
+    container_name: taskmanager.frontend
+    build:
+      context: .
+      dockerfile: TaskManager.Frontend/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - taskmanager.backend
+    environment:
+      ConnectionStrings__Backend: "http://taskmanager.backend:8080"
+  
 volumes:
   mongodb_data:

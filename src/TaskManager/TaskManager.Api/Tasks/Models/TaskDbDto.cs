@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TaskManager.Tasks.Models;
+﻿namespace TaskManager.Tasks.Models;
 
 public record TaskDbDto
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
     // Наименование
-    [MaxLength(100)]
     public required string Name { get; set; }
 
     // Дата создания
@@ -20,17 +17,14 @@ public record TaskDbDto
     public DateTime Deadline { get; set; }
 
     // Тэги/Метки
-    [MaxLength(100)]
     public List<string> Tags { get; set; } = [];
 
     // Категория
-    [MaxLength(100)]
     public string? Category { get; set; }
 
     // Приоритет
     public int Priority { get; set; }
 
     // Комментарий/Описание
-    [MaxLength(150)]
     public string? Description { get; set; }
 }

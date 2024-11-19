@@ -1,4 +1,6 @@
-﻿namespace TaskManager.Tasks.Mappers;
+﻿using TaskManager.Common.Models.Tasks;
+
+namespace TaskManager.Tasks.Mappers;
 
 [RegisterTransient]
 public class TaskMapper
