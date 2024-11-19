@@ -21,6 +21,11 @@ public class UpdateTaskCommand(
             return TaskError.NotFound(updateTask.Id);
         }
 
+        if (IsEntityUnchanged(dbTask, updateTask))
+        {
+            return Result.Success();
+        }
+
         dbTask.Name = updateTask.Name;
         dbTask.Description = updateTask.Description;
         dbTask.Priority = updateTask.Priority;
@@ -39,5 +44,16 @@ public class UpdateTaskCommand(
             logger.LogError(e, e.Message);
             return TaskError.UpdateFailure;
         }
+    }
+
+    private bool IsEntityUnchanged(TaskDbDto dbTask, TaskDbDto updateTask)
+    {
+        return dbTask.Name == updateTask.Name &&
+            dbTask.Description == updateTask.Description &&
+            dbTask.Priority == updateTask.Priority &&
+            dbTask.Category == updateTask.Category &&
+            dbTask.CompletionDate == updateTask.CompletionDate &&
+            dbTask.Deadline == updateTask.Deadline &&
+            dbTask.Tags.SequenceEqual(updateTask.Tags);
     }
 }

@@ -51,7 +51,7 @@ else
                     <MudStack Row="true">
                         <MudDatePicker Label="Creation Date" Date="@task.CreationDate"
                                        Disabled="true"/>
-                        
+
                         <MudDatePicker Label="Completion Date" Date="@task.CompletionDate"
                                        Disabled="true"/>
 
@@ -70,11 +70,11 @@ else
                             }
                         </MudSelect>
                     </MudStack>
-                    
+
                     <MudStack Row="true" Class="mt-5 mb-5">
                         <MudButton Class="mr-5" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save"
                                    Color="Color.Primary"
-                                   @onclick="() => SaveTask(task)">Save task
+                                   @onclick="async() => await SaveTask(task)">Save task
                         </MudButton>
                         <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete"
                                    Color="Color.Error"
@@ -112,29 +112,50 @@ else
 
     private async Task SaveTask(TaskClientDto task)
     {
-        await TasksApi.UpdateTaskAsync(task);
-        Snackbar.Add($"Task {task.Name} updated.", Severity.Success);
+        try
+        {
+            await TasksApi.UpdateTaskAsync(task);
+            Snackbar.Add($"Task {task.Name} updated.", Severity.Success);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add($"Error {e}.", Severity.Error);
+        }
     }
 
     private async Task AddNewTask()
     {
-        var newTask = new TaskClientDto
+        try
         {
-            Name = "New Task",
-            Deadline = DateTime.Now.AddDays(7)
-        };
-        await TasksApi.CreateTaskAsync(newTask);
-        tasks = (await TasksApi.GetAllTasksAsync()).OrderBy(x => x.CreationDate);
+            var newTask = new TaskClientDto
+            {
+                Name = "New Task",
+                Deadline = DateTime.Now.AddDays(7)
+            };
+            await TasksApi.CreateTaskAsync(newTask);
+            tasks = (await TasksApi.GetAllTasksAsync()).OrderBy(x => x.CreationDate);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add($"Error {e}.", Severity.Error);
+        }
     }
 
     private async Task DeleteTask(Guid id)
     {
-        await TasksApi.DeleteTaskAsync(id);
-        tasks = await TasksApi.GetAllTasksAsync();
-        Snackbar.Add($"Task {id} deleted.", Severity.Success, config =>
+        try
         {
-            config.DuplicatesBehavior = SnackbarDuplicatesBehavior.Allow;
-        });
+            await TasksApi.DeleteTaskAsync(id);
+            tasks = await TasksApi.GetAllTasksAsync();
+            Snackbar.Add($"Task {id} deleted.", Severity.Success, config =>
+            {
+                config.DuplicatesBehavior = SnackbarDuplicatesBehavior.Allow;
+            });
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add($"Error {e}.", Severity.Error);
+        }
     }
 
     private IEnumerable<TaskClientDto> FilterAndSortTasks()
