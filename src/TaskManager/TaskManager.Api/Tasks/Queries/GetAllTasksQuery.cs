@@ -1,5 +1,4 @@
 ﻿using TaskManager.Tasks.Mappers;
-using TaskManager.Tasks.Models;
 
 namespace TaskManager.Tasks.Queries;
 
