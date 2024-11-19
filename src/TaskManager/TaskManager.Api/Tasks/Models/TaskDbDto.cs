@@ -28,7 +28,7 @@ public record TaskDbDto
     public string? Category { get; set; }
 
     // Приоритет
-    public Priority Priority { get; set; }
+    public int Priority { get; set; }
 
     // Комментарий/Описание
     [MaxLength(150)]

@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Tasks.Models;
+using TaskManager.Tasks.Commands;
+using TaskManager.Tasks.Queries;
 
 namespace TaskManager.Tasks.Endpoints;
 
 /// <summary>
 ///     Controller for handling tasks-related operations.
 /// </summary>
-[ApiController]
 [Route("[controller]")]
-public class TasksController : ControllerBase
+public class TasksController : BaseController
 {
     [HttpGet("[action]")]
     public async Task<IActionResult> GetAll(
@@ -16,14 +16,24 @@ public class TasksController : ControllerBase
         CancellationToken ct
     )
     {
-        var tasks = await allTasksQuery.GetAllTasks(ct);
+        var tasks = await allTasksQuery.Get(ct);
         return Ok(tasks);
     }
-    [HttpGet("[action]")]
-    public async Task<IActionResult> Get()
+
+    [HttpGet("[action]/{taskId}")]
+    public async Task<IActionResult> Get(
+        [FromServices] GetByIdTaskQuery getByIdTaskQuery,
+        [FromRoute] Guid taskId,
+        CancellationToken ct
+    )
     {
-        return Ok();
+        var task = await getByIdTaskQuery.Get(taskId, ct);
+        return task.Match(
+            onSuccess: Ok,
+            onFailure: Problem
+        );
     }
+
     [HttpPut("[action]")]
     public async Task<IActionResult> Create(
         [FromServices] CreateTaskCommand createTaskCommand,
@@ -31,22 +41,38 @@ public class TasksController : ControllerBase
         CancellationToken ct
     )
     {
-        var isCreated = await createTaskCommand.Execute(taskClientDto, ct);
-        if (isCreated)
-        {
-            return Ok();
-        }
+        var result = await createTaskCommand.Execute(taskClientDto, ct);
+        return result.Match(
+            onSuccess: Ok,
+            onFailure: Problem
+        );
+    }
 
-        return BadRequest();
-    }
     [HttpPatch("[action]")]
-    public async Task<IActionResult> Update()
+    public async Task<IActionResult> Update(
+        [FromServices] UpdateTaskCommand updateTaskCommand,
+        [FromBody] TaskClientDto taskClientDto,
+        CancellationToken ct
+    )
     {
-        return Ok();
+        var result = await updateTaskCommand.Execute(taskClientDto, ct);
+        return result.Match(
+            onSuccess: Ok,
+            onFailure: Problem
+        );
     }
-    [HttpDelete("[action]")]
-    public async Task<IActionResult> Remove()
+
+    [HttpDelete("[action]/{taskId}")]
+    public async Task<IActionResult> Remove(
+        [FromServices] DeleteTaskCommand deleteTaskCommand,
+        [FromRoute] Guid taskId,
+        CancellationToken ct
+    )
     {
-        return Ok();
+        var result = await deleteTaskCommand.Execute(taskId, ct);
+        return result.Match(
+            onSuccess: Ok,
+            onFailure: Problem
+        );
     }
 }

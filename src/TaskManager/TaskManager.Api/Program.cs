@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using TaskManager.Tasks;
+using TaskManager.Tasks.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

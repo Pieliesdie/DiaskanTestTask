@@ -16,11 +16,11 @@ public class TaskMapper
             Deadline = taskClientDto.Deadline,
             Description = taskClientDto.Description,
             Name = taskClientDto.Name,
-            Priority = taskClientDto.Priority,
+            Priority = (int)taskClientDto.Priority,
             Tags = taskClientDto.Tags
         };
     }
-    
+
     public TaskClientDto MapToClientDto(TaskDbDto taskClientDto)
     {
         return new TaskClientDto
@@ -32,7 +32,7 @@ public class TaskMapper
             Deadline = taskClientDto.Deadline,
             Description = taskClientDto.Description,
             Name = taskClientDto.Name,
-            Priority = taskClientDto.Priority,
+            Priority = (Priority)taskClientDto.Priority,
             Tags = taskClientDto.Tags
         };
     }

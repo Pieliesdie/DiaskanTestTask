@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MongoDB.EntityFrameworkCore.Extensions;
-using TaskManager.Tasks.Models;
+﻿using MongoDB.EntityFrameworkCore.Extensions;
 
-namespace TaskManager.Tasks;
+namespace TaskManager.Tasks.Models;
 
 public class TaskContext : DbContext
 {
