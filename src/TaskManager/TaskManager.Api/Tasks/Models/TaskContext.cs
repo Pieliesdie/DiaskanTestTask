@@ -2,10 +2,9 @@
 
 namespace TaskManager.Tasks.Models;
 
-public class TaskContext : DbContext
+public class TaskContext(DbContextOptions options) : DbContext(options)
 {
-    public TaskContext(DbContextOptions options) : base(options) { }
-    public DbSet<TaskDbDto> Tasks { get; set; }
+    public virtual DbSet<TaskDbDto> Tasks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
