@@ -10,8 +10,8 @@ services:
       - mongodb_data:/data/db
 
   taskmanager.backend:
-    image: taskmanager.api
-    container_name: taskmanager.api
+    image: taskmanager.backend
+    container_name: taskmanager.backend
     build:
       context: .
       dockerfile: TaskManager.Api/Dockerfile

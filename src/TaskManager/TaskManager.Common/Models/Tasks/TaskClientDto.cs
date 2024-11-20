@@ -10,8 +10,6 @@ public record TaskClientDto
     [Required]
     [MaxLength(50)]
     public required string Name { get; set; }
-
-    public bool IsCompleted => CompletionDate is not null;
     public DateTime CreationDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public DateTime Deadline { get; set; }

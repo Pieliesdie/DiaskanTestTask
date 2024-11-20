@@ -4,7 +4,7 @@ using TaskManager.Frontend.Components;
 using TaskManager.Frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AutoRegister();
 builder.Services.AddMudServices();
 
 builder.Services.AddRazorComponents()
