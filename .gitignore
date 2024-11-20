@@ -38,3 +38,4 @@ packages/
 /.idea
 bin
 obj
+.idea*/
