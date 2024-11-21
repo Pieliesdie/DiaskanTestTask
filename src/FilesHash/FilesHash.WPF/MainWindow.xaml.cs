@@ -20,7 +20,6 @@ public partial class MainWindow : Window
     private readonly GetAllFilesHashQuery getAllFilesHashQuery;
     private readonly CalcHashQuery hashQuery;
     public ObservableCollection<FileItem> Files { get; set; }
-
     public ObservableCollection<FileHashViewModel> DbFiles { get; set; } = [];
     public RelayCommand<FileItem> RemoveFileCommand { get; set; }
 
@@ -115,12 +114,12 @@ public partial class MainWindow : Window
 
         Files.Remove(parameter);
     }
-    
+
     private async void RefreshButton_Click(object sender, RoutedEventArgs e)
     {
         await RefreshFileHashesAsync();
     }
-    
+
     private async Task RefreshFileHashesAsync(CancellationToken ct = default)
     {
         try
