@@ -20,4 +20,5 @@ dotnet run --project FilesHash.WPF
 
 ## 3. Вопросы
 **Расположение кода**: `src/Questions`
+
 Ответы в файле Questions.md
