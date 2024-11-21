@@ -1,5 +1,24 @@
-Тестовое задание для Транснефть-Диаскан 
+# Тестовое задание для Транснефть-Диаскан
 
-src/TaskManager - 1-ое задание
+## 1. Task Manager
+**Расположение кода**: `src/TaskManager`
 
-src/work-in-proggres - 2-ое задание
+**Сборка и запуск**:
+```bash
+docker compose up --build -d
+```
+Страница будет доступна по localhost:8080
+
+## 2. Files hash
+**Расположение кода**: `src/FilesHash`
+
+**Сборка и запуск**:
+```bash
+dotnet build
+dotnet run --project FilesHash.WPF
+```
+
+## 3. Вопросы
+**Расположение кода**: `src/Questions`
+
+Ответы в файле Questions.md
