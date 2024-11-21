@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesHash", "FilesHash\FilesHash.csproj", "{6EA12CA6-BB86-40AF-93F6-FBD7CF330A1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesHash.WPF", "FilesHash.WPF\FilesHash.WPF.csproj", "{6EA12CA6-BB86-40AF-93F6-FBD7CF330A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
